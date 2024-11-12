@@ -3,10 +3,9 @@ import Doctor from '../../models/Doctor';
 
 export default async function handler(req, res) {
   await connectToDatabase();
-
   if (req.method === 'GET') {
     try {
-      const doctors = await Doctor.find().select('name specialty'); // You can modify which fields to select here
+      const doctors = await Doctor.find().select('name specialty'); 
       return res.status(200).json({
         message: 'Doctors fetched successfully',
         doctors,

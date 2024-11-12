@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 const handler = async (req, res) => {
   await connectDB();
   if (req.method === 'POST') {
-    const { name, email, specialty, password } = req.body;
+    const { name, email, specialty, password} = req.body;
     try {
       const existingUser = await User.findOne({ email });
       if (existingUser) {

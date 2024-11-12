@@ -37,7 +37,8 @@ export default function PatientAuth() {
               body: JSON.stringify(requestBody),
           });
           const data = await response.json();
-          //console.log(data.patientId);
+          //Setting up patientId to local storage fo easy access
+          localStorage.setItem('patientId',data.patientId);
           setLoading(false);
           if (response.ok) {
               if (data.token) {
@@ -139,7 +140,7 @@ export default function PatientAuth() {
             </div>
             {error && <p className="text-red-600 mt-2">{error}</p>}
             <Button className="w-full mt-6 bg-blue-600 hover:bg-blue-700" type="submit" disabled={loading}>
-              {loading ? 'Loading...' : isLogin ? 'Sign In' : 'Register'}
+              {loading ? 'Loading...' : isLogin ? 'Log in' : 'Register'}
             </Button>
           </form>
         </CardContent>
@@ -149,7 +150,7 @@ export default function PatientAuth() {
             className="text-blue-600 hover:text-blue-700"
             onClick={() => setIsLogin(!isLogin)}
           >
-            {isLogin ? 'Create an account' : 'Already have an account? Sign in'}
+            {isLogin ? 'Create an account' : 'Already have an account? Log in'}
           </Button>
         </CardFooter>
       </Card>

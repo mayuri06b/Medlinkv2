@@ -51,7 +51,7 @@ const PatientManagement = () => {
         setSuccess('');
 
         try {
-            await axios.post('/api/patients', {
+            await axios.post('/api/patientData', {
                 ...patientData,
                 doctorId,
             });

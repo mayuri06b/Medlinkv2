@@ -19,7 +19,7 @@ export default function PatientDetail() {
 
     const fetchPatientData = async () => {
       try {
-        const response = await fetch(`/api/patients/${patientId}`, {
+        const response = await fetch(`/api/patientData/${patientId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

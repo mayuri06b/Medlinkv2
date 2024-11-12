@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from 'react';
 import { User, Send, ChevronLeft } from 'lucide-react';
-import NavBar from '@/components/DoctorNav/page';
 import DashboardLayout from '@/components/PatientNav/page';
 
 const doctors = [

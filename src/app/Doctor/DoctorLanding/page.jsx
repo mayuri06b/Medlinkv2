@@ -1,6 +1,5 @@
 'use client';
-
-import PatientManagement from '../PatientManagement/page';
+// import PatientManagement from '../PatientManagement/page';
 import PrescriptionForm from '@/components/PrescriptionForm/page';
 import NavBar from '@/components/DoctorNav/page';
 import React, { useState, useEffect } from 'react';
@@ -8,10 +7,11 @@ import { useRouter } from 'next/navigation';
 import { Bell, Calendar, MessageSquare, PlusCircle, User, UserCircle, Zap } from 'lucide-react';
 
 const conditionColors = {
-  green: 'bg-green-500',
-  orange: 'bg-orange-500',
-  red: 'bg-red-500',
+  Stable: 'bg-green-500',    
+  Caution: 'bg-orange-500',  
+  Critical: 'bg-red-500'     
 };
+
 
 export default function DoctorDashboard() {
   const [patientList, setPatientList] = useState([]);
@@ -70,7 +70,7 @@ export default function DoctorDashboard() {
   
           const patientsData = await patientResponse.json();
           console.log('Patient details fetched:', patientsData);
-          setPatientList(patientsData); // Update patient list with details
+          setPatientList(patientsData); 
         }
         console.log(patientList);
         
@@ -85,6 +85,7 @@ export default function DoctorDashboard() {
     fetchDoctorData();
   }, [router]);
 
+  localStorage.setItem('doctorId', doctorId);
   const handleOpenPrescriptionForm = (patientId) => {
     setSelectedPatient(patientId); 
   };
@@ -107,6 +108,7 @@ export default function DoctorDashboard() {
           )
         );
         setSelectedPatient(null); 
+
       } else {
         console.error('Failed to add prescription:', await updateresponse.text());
         alert('Failed to add prescription. Please try again.');
@@ -117,12 +119,10 @@ export default function DoctorDashboard() {
     }
   };
 
-
-
   const removePatient = async (id) => {
     if (confirm("Are you sure you want to remove this patient?")) {
         try {
-            const response = await fetch(`/api/patients`, { 
+            const response = await fetch('/api/patientData', { 
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json', 
@@ -175,7 +175,6 @@ const viewPatient = (patientId) => {
             <span>Add Patient</span>
           </button>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {patientList && patientList.length > 0 ? (
             patientList.map((patient) => (
@@ -192,6 +191,9 @@ const viewPatient = (patientId) => {
                     <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold text-white ${conditionColors[patient.condition] || 'bg-gray-500'}`}>
                       {patient.condition ? patient.condition.charAt(0).toUpperCase() + patient.condition.slice(1) : 'Unknown'}
                     </span>
+                    {/* <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold text-white ${conditionColors[prescriptionData.condition] || 'bg-gray-500'}`}>
+                    {prescriptionData.condition ? prescriptionData.condition.charAt(0).toUpperCase() + prescriptionData.condition.slice(1) : 'Unknown'}
+                    </span> */}
                     <p className="mt-2 text-gray-700">Health: {patient.health || 'N/A'}</p>
                   </div>
                 </div>

@@ -1,61 +1,56 @@
-import connectToDatabase from '../../utils/dbConnect';
 import Appointment from '../../models/Appointment';
 import Doctor from '../../models/Doctor';
-import Patient from '../../models/Patient';
 
 export default async function handler(req, res) {
-  await connectToDatabase();
-
   if (req.method === 'POST') {
-    const { patientId, doctorId, date, time } = req.body;
-
-    // Ensure required data is provided
-    if (!patientId || !doctorId || !date || !time) {
-      return res.status(400).json({ error: 'All fields are required' });
-    }
-
     try {
-      // Find the patient and doctor in the database
-      const patient = await Patient.findById(patientId);
+      const { patientId, doctorId, date, time } = req.body;
       const doctor = await Doctor.findById(doctorId);
-
-      if (!patient) {
-        return res.status(404).json({ error: 'Patient not found' });
-      }
-
       if (!doctor) {
         return res.status(404).json({ error: 'Doctor not found' });
       }
 
-      // Create a new appointment with the status as 'pending'
+      const dayOfWeek = new Date(date).toLocaleString('en-US', { weekday: 'long' });
+
+      const doctorAvailable = doctor.availability.some(
+        (day) => day.day === dayOfWeek && day.times.includes(time)
+      );
+
+      if (doctorAvailable) {
+        return res.status(400).json({ error: 'Doctor is not available at the selected time' });
+      }
+
+      // Create the new appointment
       const newAppointment = new Appointment({
         patientId,
         doctorId,
-        date,
+        date: new Date(date),
         time,
-        status: 'pending', // Initial status set to 'pending'
       });
 
       await newAppointment.save();
 
-      // Optionally, update the doctor's list of appointments if needed
-      doctor.appointments.push(newAppointment._id);
+      // Add the reserved time to the doctor's availability
+      const dayEntry = doctor.availability.find(day => day.day === dayOfWeek);
+
+      if (dayEntry) {
+        // If the day already exists, add the time to that day
+        if (!dayEntry.times.includes(time)) {
+          dayEntry.times.push(time);
+        }
+      } else {
+        // If the day does not exist, add a new day entry with the time
+        doctor.availability.push({ day: dayOfWeek, times: [time] });
+      }
+
+      // Save the updated doctor's availability
       await doctor.save();
 
-      // Optionally, update the patient's list of appointments if needed
-      patient.appointments.push(newAppointment._id);
-      await patient.save();
-
-      return res.status(201).json({
-        message: 'Appointment request sent successfully',
-        appointment: newAppointment,
-      });
+      res.status(201).json({ appointment: newAppointment });
     } catch (error) {
-      console.error('Error creating appointment:', error);
-      return res.status(500).json({ error: 'Failed to create appointment' });
+      res.status(500).json({ error: 'Failed to book appointment' });
     }
   } else {
-    // Method not allowed
-    res.status(405).json({ error: 'Method not allowed' });
+    res.status(405).json({ error: 'Method Not Allowed' });
   }
 }

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import DashboardLayout from '@/components/PatientNav/page';
 
-// Example frontend function to fetch patient data by ID
 async function fetchPatientData(patientId) {
     try {
         const response = await fetch(`/api/authp/getPatient?patientId=${patientId}`, {

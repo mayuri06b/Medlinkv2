@@ -28,7 +28,7 @@ const handler = async (req, res) => {
       // Send token and user data in response
       res.json({ 
         token, 
-        user: { id: user._id, name: user.name, email: user.email, specialty: user.specialty } 
+        user: { id: user._id, name: user.name, email: user.email, specialty: user.specialty} 
       });
     } catch (error) {
       console.error('Error during login:', error);

@@ -1,5 +1,4 @@
-// In `/pages/api/prescriptions.js`
-
+// pages/api/prescriptions.js
 import Prescription from '../../models/Prescription';
 import Patient from '../../models/Patient';
 import dbConnect from '../../utils/dbConnect';
@@ -9,10 +8,23 @@ export default async function handler(req, res) {
   await dbConnect();
 
   if (req.method === 'POST') {
-    const { patient, doctor, diagnosis, drugName, dosage, allergies,signature} = req.body;
+    const { patient, doctor, diagnosis, medications, allergies, condition, signature } = req.body;
+
     try {
-      const newPrescription = await Prescription.create({ patient, doctor, diagnosis, drugName, dosage, allergies,signature});
+      // Create a new Prescription document
+      const newPrescription = await Prescription.create({
+        patient,
+        doctor,
+        diagnosis,
+        medications, // Array of medication objects
+        allergies,
+        condition,    // New condition field
+        signature
+      });
+
+      // Update the Patient document with the new prescription ID
       await Patient.findByIdAndUpdate(patient, { $push: { prescriptions: newPrescription._id } });
+
       res.status(201).json(newPrescription);
     } catch (error) {
       console.error('Error creating prescription:', error);

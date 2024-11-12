@@ -6,7 +6,8 @@ const DoctorSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   specialty: { type: String, required: true },
   password: { type: String, required: true },
-  patients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }] // Array of references to patients
+  availability: {type: [{day: {type: String},times: {type: [String], default: []}}],default:[]},
+  patients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }] 
 }, { timestamps: true });
 
 export default mongoose.models.Doctor || mongoose.model('Doctor', DoctorSchema);

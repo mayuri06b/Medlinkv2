@@ -11,13 +11,9 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const { authorization } = req.headers;
-
-      // Check if authorization header is present
       if (!authorization) {
         return res.status(401).json({ error: 'Authorization token required' });
       }
-
-      // Extract the token from the authorization header
       const token = authorization.split(' ')[1];  
       let doctorId;
       try {
