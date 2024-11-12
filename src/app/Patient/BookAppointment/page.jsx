@@ -29,7 +29,10 @@ export default function PatientAppointmentBooking() {
   const [selectedTime, setSelectedTime] = useState('');
   const [isBooked, setIsBooked] = useState(false);
   const [patientId, setPatientId] = useState(''); 
-  const temp = localStorage.getItem('patientId');
+  if (typeof window !== "undefined") {
+    const temp = localStorage.getItem('patientId');
+
+  }
 
   useEffect(() => {
     const temp = localStorage.getItem('patientId');

@@ -42,7 +42,10 @@ const DoctorAuth = () => {
       }
       const data = await response.json();
       if (data.token) {
-        localStorage.setItem('token', data.token);  
+        if (typeof window !== "undefined") {
+          localStorage.setItem('token', data.token);  
+        }
+        
         if (!isSignUp) {
           router.push('/Doctor/DoctorLanding');
         } else {

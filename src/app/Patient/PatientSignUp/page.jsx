@@ -38,11 +38,16 @@ export default function PatientAuth() {
           });
           const data = await response.json();
           //Setting up patientId to local storage fo easy access
-          localStorage.setItem('patientId',data.patientId);
+          if (typeof window !== "undefined") {
+            localStorage.setItem('patientId',data.patientId);
+          }
           setLoading(false);
           if (response.ok) {
               if (data.token) {
+                if (typeof window !== "undefined") {
                   localStorage.setItem('token', data.token);
+
+                }
                   const patientId = data.patientId;
                   console.log(patientId);
                   router.push(`/Patient/PatientLanding?patientId=${patientId}`);
