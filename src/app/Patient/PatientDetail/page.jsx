@@ -19,7 +19,7 @@ export default function PatientDetail() {
 
     const fetchPatientData = async () => {
       try {
-        const response = await fetch(`/api/patientData/${patientId}`, {
+        const response = await fetch(`/api/patients/${patientId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -66,10 +66,22 @@ export default function PatientDetail() {
             <li key={prescription._id} className="bg-gray-50 p-4 rounded-md shadow-sm border">
               <p><strong className="text-gray-700">Date:</strong> {new Date(prescription.date).toLocaleDateString()}</p>
               <p><strong className="text-gray-700">Diagnosis:</strong> {prescription.diagnosis}</p>
-              <p><strong className="text-gray-700">Drug Name:</strong> {prescription.drugName}</p>
-              <p><strong className="text-gray-700">Dosage:</strong> {prescription.dosage}</p>
+
+              {/* Display Medications */}
+              <h4 className="text-lg font-semibold text-gray-800 mt-2">Medications:</h4>
+              <ul className="space-y-2">
+                {prescription.medications.map((medication, index) => (
+                  <li key={index} className="bg-gray-100 p-2 rounded">
+                    <p><strong>Drug Name:</strong> {medication.drugName}</p>
+                    <p><strong>Dosage:</strong> {medication.dosageAmount} {medication.dosageUnit}</p>
+                    <p><strong>Frequency:</strong> {medication.frequency}</p>
+                  </li>
+                ))}
+              </ul>
+
               <p><strong className="text-gray-700">Allergies:</strong> {prescription.allergies}</p>
               <p><strong className="text-gray-700">Doctor's Signature:</strong> {prescription.signature}</p>
+              <p><strong className="text-gray-700">Condition:</strong> {prescription.condition}</p>
             </li>
           ))}
         </ul>
@@ -78,5 +90,5 @@ export default function PatientDetail() {
       )}
     </div>
     </>
-  );  
+  );
 }

@@ -23,7 +23,6 @@ export default function DoctorDashboard() {
 
   useEffect(() => {
     const fetchDoctorData = async () => {
-       // Fetch doctor and patient data logic here
       const token = localStorage.getItem('token');
       if (!token) {
         console.warn('No token found; redirecting to login.');
@@ -51,7 +50,6 @@ export default function DoctorDashboard() {
         setDoctorId(data.id); 
         setPatientList(data.patients);
         
-        // Fetch patient details based on the patient IDs
         if (data.patients.length > 0) {
           const patientIds = data.patients.join(',');
           const patientResponse = await fetch(`/api/authp/getPatientDetails?ids=${patientIds}`, {
