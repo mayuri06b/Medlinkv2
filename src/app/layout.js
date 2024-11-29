@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import { icons } from "lucide-react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -13,6 +14,9 @@ const geistMono = localFont({
 });
 
 export const metadata = {
+  icons:{
+    icon: "image/v.png"
+  },
   title: "MedLink",
   description: "Cloud based Smart HealthCare Management System",
 };
