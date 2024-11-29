@@ -17,14 +17,12 @@ export default async function handler(req, res) {
 
             console.log('Patient found:', patient);
 
-            // Use bcrypt.compare to validate the password
             const isPasswordValid = await bcrypt.compare(password, patient.password);
             if (!isPasswordValid) {
                 console.log('Invalid password for patient:', patient.email);
                 return res.status(401).json({ message: 'Invalid credentials' });
             }
 
-            // Generate JWT if password is valid
             const token = jwt.sign(
                 { id: patient._id },
                 process.env.JWT_SECRET,

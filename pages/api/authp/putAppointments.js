@@ -1,6 +1,5 @@
-import Appointment from '../../models/Appointment';
-import Doctor from '../../models/Doctor';
-
+import Appointment from '../../../models/Appointment';
+import Doctor from '../../../models/Doctor';
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
@@ -19,8 +18,6 @@ export default async function handler(req, res) {
       if (doctorAvailable) {
         return res.status(400).json({ error: 'Doctor is not available at the selected time' });
       }
-
-      // Create the new appointment
       const newAppointment = new Appointment({
         patientId,
         doctorId,
@@ -29,21 +26,16 @@ export default async function handler(req, res) {
       });
 
       await newAppointment.save();
-
-      // Add the reserved time to the doctor's availability
       const dayEntry = doctor.availability.find(day => day.day === dayOfWeek);
 
       if (dayEntry) {
-        // If the day already exists, add the time to that day
         if (!dayEntry.times.includes(time)) {
           dayEntry.times.push(time);
         }
       } else {
-        // If the day does not exist, add a new day entry with the time
         doctor.availability.push({ day: dayOfWeek, times: [time] });
       }
 
-      // Save the updated doctor's availability
       await doctor.save();
 
       res.status(201).json({ appointment: newAppointment });

@@ -4,8 +4,7 @@ import Patient from '../../../models/Patient';
 export default async function handler(req, res) {
     await dbConnect();
     if (req.method === 'GET') {
-        const { patientId } = req.query;
-
+        const { patientId } = req.query;        
         try {
             const patient = await Patient.findById(patientId);
             console.log("success");

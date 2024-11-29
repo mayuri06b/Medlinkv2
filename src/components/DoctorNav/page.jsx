@@ -1,11 +1,14 @@
 import React from 'react';
+import Image from 'next/image';
 import { User, MessageSquare, Calendar, Zap, UserCircle } from 'lucide-react';
 
 const NavBar = () => {
   return (
-    <nav className="bg-blue-600 p-4 text-white shadow-lg">
+    <nav className="bg-white p-4 text-blue-600 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold tracking-wide">MediCare</h1>
+        <div>
+          <Image src="/image/logo.png" alt="Logo" width={180} height={70} />
+        </div>
         <div className="flex space-x-6 items-center">
           <NavItem href="/Doctor/DoctorLanding" icon={<User size={20} />} label="Patients" />
           <NavItem href="/Doctor/DoctorMessage" icon={<MessageSquare size={20} />} label="Messages" />

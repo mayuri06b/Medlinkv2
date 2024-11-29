@@ -10,22 +10,17 @@ const handler = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-      // Find user by email
       const user = await User.findOne({ email });
       if (!user) {
         return res.status(400).json({ message: 'Invalid email or password' });
       }
-
-      // Check if password matches
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         return res.status(400).json({ message: 'Invalid email or password' });
       }
 
-      // Create JWT token
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      // Send token and user data in response
       res.json({ 
         token, 
         user: { id: user._id, name: user.name, email: user.email, specialty: user.specialty} 

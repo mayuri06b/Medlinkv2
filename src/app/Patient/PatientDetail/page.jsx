@@ -1,11 +1,9 @@
-// pages/PatientDetail.js
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import axios from 'axios';
 import NavBar from '@/components/DoctorNav/page';
 
-export default function PatientDetail() {
+function PatientDetailsContent() {
   const searchParams = useSearchParams();
   const patientId = searchParams.get('patientId'); 
   const [patient, setPatient] = useState(null);
@@ -28,7 +26,7 @@ export default function PatientDetail() {
 
         if (response.ok) {
           const data = await response.json();
-          setPatient(data); // Set full patient data here
+          setPatient(data); 
         } else {
           console.error('Failed to fetch patient data.');
         }
@@ -46,8 +44,6 @@ export default function PatientDetail() {
   if (!patient) return <div>No patient data found.</div>;
 
   return (
-    <>
-    <NavBar />
     <div className="mt-7 patient-detail-container max-w-3xl mx-auto bg-white shadow-md rounded-lg p-8">
       <h2 className="text-2xl font-bold text-blue-600 mb-4 border-b pb-2">Patient Details</h2>
       <div className="text-lg text-gray-700 space-y-2 mb-6">
@@ -89,6 +85,16 @@ export default function PatientDetail() {
         <p className="text-gray-600 italic">No prescriptions available.</p>
       )}
     </div>
+  );
+}
+
+export default function PatientDetail() {
+  return (
+    <>
+      <NavBar />
+      <Suspense fallback={<div>Loading patient details...</div>}>
+        <PatientDetailsContent />
+      </Suspense>
     </>
   );
 }

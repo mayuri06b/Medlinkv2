@@ -36,10 +36,7 @@ export default function LandingDashboard() {
           {/* Right side: Image */}
           <div className="mr-6 lg:w-1/2 flex justify-center lg:justify-end">
             <div className="relative w-full max-w-lg aspect-square">
-              <Image
-                src="/image/landing_illustration.jpg"
-                alt="MedLink Platform Illustration"
-                layout="fill"
+              <Image src="/image/landing_illustration.jpg" alt="MedLink Platform Illustration" layout="fill"
                 objectFit="contain"
                 className="rounded-3xl shadow-2xl"
               />

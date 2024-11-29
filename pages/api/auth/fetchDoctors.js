@@ -1,5 +1,5 @@
-import connectToDatabase from '../../utils/dbConnect'; 
-import Doctor from '../../models/Doctor'; 
+import connectToDatabase from '../../../utils/dbConnect'; 
+import Doctor from '../../../models/Doctor'; 
 
 export default async function handler(req, res) {
   await connectToDatabase();
