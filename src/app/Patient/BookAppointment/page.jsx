@@ -125,12 +125,12 @@ export default function PatientAppointmentBooking() {
       <div className="min-h-screen bg-gray-50 p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-gray-800">Appointment Booking</h2>
-          <button
+          {/* <button
             onClick={() => setViewBooked(!viewBooked)}
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
             {viewBooked ? 'View Available Appointments' : 'View Booked Appointments'}
-          </button>
+          </button> */}
         </div>
 
         {!isBooked ? (

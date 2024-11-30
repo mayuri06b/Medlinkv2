@@ -14,7 +14,7 @@ const NavBar = () => {
           <NavItem href="/Patient/PatientReminders" icon={<Bell size={20} />} label="Reminders" />
           <NavItem href="/Patient/PatientMessage" icon={<MessageSquare size={20} />} label="Messages" />
           <NavItem href="/Patient/BookAppointment" icon={<Calendar size={20} />} label="Appointments" />
-          <NavItem href="/Patient/PatientProfile" icon={<UserCircle size={24} />} label="Profile" />
+          {/* <NavItem href="/Patient/PatientProfile" icon={<UserCircle size={24} />} label="Profile" /> */}
         </div>
       </div>
     </nav>

@@ -24,7 +24,7 @@ const ReminderCard = ({ reminder, onAccept, onReschedule }) => {
       <div className="text-sm text-gray-700 mb-4">
         <span className="block">{formatDate(reminder.date)}</span>
       </div>
-      <div className="flex gap-3 justify-end">
+      {/* <div className="flex gap-3 justify-end">
         <button
           onClick={() => onAccept(reminder.id)}
           className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition focus:ring focus:ring-green-300">
@@ -35,7 +35,7 @@ const ReminderCard = ({ reminder, onAccept, onReschedule }) => {
           className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition focus:ring focus:ring-yellow-300">
           Reschedule
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
